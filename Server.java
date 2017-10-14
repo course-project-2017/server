@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 
 public class Server {
-
+	//data base class^^?
   public static void main(String[] args) throws IOException {
 	  
     try (ServerSocket servers = new ServerSocket(4443)){  //some port for comp
