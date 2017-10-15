@@ -1,3 +1,2 @@
 language: java
-script:
-
+install: ant deps
