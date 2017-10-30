@@ -46,15 +46,18 @@ public class server {
                 System.err.println(is.toString());
                 ///////////////////////
                 String  output = null, from = null, where = null, when = null;
-                int pos = input.indexOf("&");
-                from = input.substring(0,pos);
-                input = input.substring(pos+1,input.length());
-                System.out.println(from);
-                pos = input.indexOf("&");
-                where = input.substring(0,pos);
-                System.out.println(where);
-                input = input.substring(pos+1,input.length());
-                when = input.substring(0,input.length()-1);
+                String[]lines=input.split("\n");
+                for (String line : lines){
+                      if (line.indexOf("&") == 0) {
+                              int pos = line.indexOf("&", 1);
+                              from = line.substring(1,pos);
+                              line = line.substring(pos+1,line.length());
+                              pos = line.indexOf("&");
+                              where = line.substring(0,pos);
+                              line = line.substring(pos+1,line.length());
+                              when = line.substring(0,line.length()-1);
+                      }
+                }
                 try {
       	          Class.forName("org.postgresql.Driver");
       	          String url = "jdbc:postgresql://localhost:5432/MyBD";
