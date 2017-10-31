@@ -21,7 +21,7 @@ import java.sql.Statement;
 public class server {
 
     public static void main(String[] args) throws Throwable {
-        ServerSocket ss = new ServerSocket(8080);
+        ServerSocket ss = new ServerSocket(8083);
         Socket s = ss.accept();
         System.err.println("Client accepted");
         new Thread(new SocketProcessor(s)).start();
@@ -55,7 +55,7 @@ public class server {
                               pos = line.indexOf("&");
                               where = line.substring(0,pos);
                               line = line.substring(pos+1,line.length());
-                              when = line.substring(0,line.length()-1);
+                              when = line.substring(0,line.length());
                       }
                 }
                 try {
