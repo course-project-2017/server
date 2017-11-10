@@ -44,7 +44,6 @@ public class server {
             try {
                 String input = readInputHeaders();
                 System.err.println(is.toString());
-                ///////////////////////
                 String  output = null, from = null, where = null, when = null;
                 String[]lines=input.split("\n");
                 for (String line : lines){
@@ -68,9 +67,9 @@ public class server {
       	        	  Statement stmt = con.createStatement();
       	              ResultSet rs = stmt.executeQuery("SELECT Flight.date_flight, Flight.Time_Flight, C1.Country, Cit1.City, C2.Country, Cit2.City FROM Flight, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities Cit2   WHERE (Cit1.Country=C1.ID and Flight.City_To=Cit1.ID) AND (Cit2.Country=C2.ID and Flight.City_From=Cit2.ID)"
  	            		  + "AND C1.Country='" + from + "' AND C2.Country='" + where + "' AND Flight.date_flight ='" + when + "'");
- 	                  while (rs.next()) {
- 	            	  output = rs.getString(1) + "&" + rs.getString(2) + "&" + rs.getString(3) + "&" + rs.getString(4) + "&" + rs.getString(5) + "&" + rs.getString(6);
- 	                  System.out.println(output);
+ 	                 while (rs.next()) {
+                      	 str = rs.getString(1) + "&" + rs.getString(2) + "&" + rs.getString(3) + "&" + rs.getString(4) + "&" + rs.getString(5) + "&" + rs.getString(6)+"|";
+                 	  		output = output + str;
       	              }
       	              rs.close();
       	              stmt.close();
@@ -80,7 +79,6 @@ public class server {
       	      } catch (Exception e) {
       	    	  output = "ERROR! No Data Base!";
       	      }
-                ///////////////////////
                 writeResponse(output);
             } catch (Throwable t) {
                 //do nothing
@@ -91,7 +89,7 @@ public class server {
                     //do nothing
                 }
             }
-            System.err.println("Client processing finished");
+            System.out.println("Client processing finished");
         }
 
         private void writeResponse(String s) throws Throwable {
