@@ -1,7 +1,7 @@
-    'use strict';
-    const http = require('http');
-	
-  var server = http.createServer( function(request, response){
+'use strict';
+const http = require('http');
+const port = process.env.PORT || 5000;
+var server = http.createServer( function(request, response){
 
 	var input = '';
   	response.setHeader('Content-Type', 'application/json');
@@ -35,5 +35,5 @@
 	});
 })
 	
-server.listen(8080);
-console.log('Server running on 8080');
+server.listen(port);
+console.log('Server is running');
