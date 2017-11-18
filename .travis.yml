@@ -1,2 +1,3 @@
 language: node_js
-script: mvn clean verify
+node_js:
+  - "6"
