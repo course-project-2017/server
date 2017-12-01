@@ -40,8 +40,8 @@ var server = http.createServer( function(request, response){
 		client.query(query, (err, res) => {
   			if (err) throw err;
   			for (let row of res.rows) {
-				String strr = row.getString(1);
-    				console.log(strr);
+				var str = row.getString(1);
+    				console.log(str);
   			}
  		 	client.end();
 		});
