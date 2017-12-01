@@ -20,8 +20,8 @@ var server = http.createServer( function(request, response){
                         	where = substr[i].substring(0, pos);
                         	substr[i] = substr[i].substring(pos+1, substr[i].length);
                         	when = substr[i].substring(0, substr[i].length);
-			}
-		}
+        		}
+        	}
 	
 		const { Client } = require('pg');
 
@@ -30,30 +30,48 @@ var server = http.createServer( function(request, response){
   			ssl: true,
 		});
 		
-        	//var pg = require('pg');
-        	//var conString = "postgres://postgres:postgres@localhost:5432/Test";
-
-        	//var client = new pg.Client(conString);
-
-		from = "Moscow";
-		where = "Paris";
-		when = "2018-01-04";
-		client.connect();
-		var query = "SELECT Flights.id, Flights.date_flight, Flights.time_flight, C1.Country, Cit1.City, C2.Country, Cit2.City, Flights.cost FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
-		+ "AND Cit1.City='" + from + "' AND Cit2.City='" + where + "' AND Flights.date_flight ='" + when + "'";
-		client.query(query, (err, res) => {
-  			if (err) throw err;
-  			for (let row of res.rows) {
-				//var str = row.getString(1);
-    				console.log(row);
-  			}
- 		 	client.end();
-		});
-		response.writeHead(200, {'Content-Type': 'text/html'});
-		var message = from +"&" + where + "&" + when + "&" + "a&b&c|";
-		var result = message;
-
-       		response.end(result);	
+        	var client = new pg.Client(conString);
+        	var line = null;
+        	from = "Moscow";
+        	where = "Paris";
+        	when = "2018-01-04";
+        	client.connect();
+        	var message = '', country = '';
+        	client.query(("SELECT Countries.Country FROM Countries, Cities WHERE Countries.id = Cities.country AND Cities.city = '" + where + "'"), (err, res) => {
+        		if (err) throw err;
+        		for (let row of res.rows) {
+        			country = JSON.stringify(row);
+        			country = country.substring( country.indexOf(":") + 2, country.length - 2);
+        		}
+        		var query = "SELECT Flights.id, Flights.date_flight, Flights.cost, Flights.time_flight,C1.Country, Cit1.City, C2.Country, Cit2.City FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
+        				+ "AND Cit1.City='" + where + "' AND Cit2.City='" + from + "' AND Flights.date_flight ='" + when + "'";
+        		client.query(query, (err, res) => {
+        			if (err) throw err;
+        			for (let row of res.rows) {
+        				var num = 0, pos1 = 0, pos2 = 0;
+        				var str = JSON.stringify(row);
+        				while (str.indexOf(":") != -1) 
+        				{
+        					pos1 = str.indexOf(":", num); 
+        					pos2 = str.indexOf(",", num);
+        					if (pos2 == -1)
+        						line = str.substring(pos1 + 1, str.length - 1);
+                        			else 
+                        				line = str.substring(pos1 + 1, pos2);
+        					if (line.indexOf('"') != -1)
+        						line = line.substring(1, line.length - 1);
+        					str = str.substring(pos2 + 1, str.length);
+        					if (pos2 == -1)
+        						str = str.substring(pos1 + 1, str.length);	
+        					message += line + "&";	 
+        				}
+        				message += country + "&" + where+ "|";  
+        			}
+        			client.end();
+        			response.writeHead(200, {'Content-Type': 'text/html'});
+       				response.end(message);	
+        		});
+        	});
 	});
 })
 	
