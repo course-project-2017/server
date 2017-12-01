@@ -10,7 +10,7 @@ var server = http.createServer( function(request, response){
  	});
 
 	request.on('end', () => {
-		var substr = input.split("\n"), pos = 0, from = '', where = '', when = '';
+		var substr = input.split("\n"), pos = 0, from = '', where = '', when = '0000-00-00';
         	for (var i = 0; i < substr.length; i++){
         		if (substr[i].indexOf("&") == 0) {
                 		pos = substr[i].indexOf("&", 1); 
