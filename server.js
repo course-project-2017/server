@@ -51,11 +51,7 @@ var server = http.createServer( function(request, response){
 		});
 		response.writeHead(200, {'Content-Type': 'text/html'});
 		var message = from +"&" + where + "&" + when + "&" + "a&b&c|";
-		var result = "HTTP/1.1 200 OK\r\n" +
-		"Server: YarServer/2009-09-09\r\n" +
-		"Content-Type: text/html\r\n" +
-		"Content-Length: " + message.length +  "\r\n" +
-		"Connection: close\r\n\r\n" + message;
+		var result = message;
 
        		response.end(result);	
 	});
