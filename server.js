@@ -30,11 +30,7 @@ var server = http.createServer( function(request, response){
   			ssl: true,
 		});
 		
-        	var client = new pg.Client(conString);
         	var line = null;
-        	from = "Moscow";
-        	where = "Paris";
-        	when = "2018-01-04";
         	client.connect();
         	var message = '', country = '';
         	client.query(("SELECT Countries.Country FROM Countries, Cities WHERE Countries.id = Cities.country AND Cities.city = '" + where + "'"), (err, res) => {
