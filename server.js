@@ -65,6 +65,8 @@ var server = http.createServer( function(request, response){
         			}
         			client.end();
         			response.writeHead(200, {'Content-Type': 'text/html'});
+				if (!message)
+					message = "No tickets!";
        				response.end(message);	
         		});
         	});
