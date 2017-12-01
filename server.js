@@ -1,6 +1,8 @@
 'use strict';
+//зависимость устанавливаем...?
 const http = require('http');
 const port = process.env.PORT || 5000;
+//сервер создаем
 var server = http.createServer( function(request, response){
 
 	var input = '';
