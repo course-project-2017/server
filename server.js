@@ -36,7 +36,7 @@ var server = http.createServer( function(request, response){
 		client.connect();
 		var query = "SELECT Flights.id, Flights.date_flight, Flights.time_flight, C1.Country, Cit1.City, C2.Country, Cit2.City, Flights.cost FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
 		+ "AND Cit1.City='" + from + "' AND Cit2.City='" + where + "' AND Flights.date_flight ='" + when + "'";
-
+		var str = null;
 		client.query(query, (err, res) => {
   			if (err) throw err;
   			for (let row of res.rows) {
@@ -45,14 +45,13 @@ var server = http.createServer( function(request, response){
   			}
  		 	client.end();
 		});
-
 		response.writeHead(200, {'Content-Type': 'text/html'});
 		var message = from +"&" + where + "&" + when + "&" + "a&b&c|";
 		var result = "HTTP/1.1 200 OK\r\n" +
 		"Server: YarServer/2009-09-09\r\n" +
 		"Content-Type: text/html\r\n" +
 		"Content-Length: " + message.length +  "\r\n" +
-		"Connection: close\r\n\r\n" + message;
+		"Connection: close\r\n\r\n" + str;
 
        		response.end(result);	
 	});
