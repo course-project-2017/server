@@ -36,12 +36,11 @@ var server = http.createServer( function(request, response){
 		client.connect();
 		//var query = "SELECT Flights.id, Flights.date_flight, Flights.time_flight, C1.Country, Cit1.City, C2.Country, Cit2.City, Flights.cost FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
 		//+ "AND Cit1.City='" + from + "' AND Cit2.City='" + where + "' AND Flights.date_flight ='" + when + "'";
-		var str = null;
 		client.query("SELECT * FROM Cities", (err, res) => {
   			if (err) throw err;
   			for (let row of res.rows) {
-				var str = row.getString(1);
-    				console.log(str);
+				//var str = row.getString(1);
+    				console.log(row);
   			}
  		 	client.end();
 		});
