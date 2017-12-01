@@ -68,7 +68,11 @@ var server = http.createServer(
                         			else 
                         				line = str.substring(pos1 + 1, pos2);
         					if (line.indexOf('"') != -1)
+        					{
         						line = line.substring(1, line.length - 1);
+							if (line[line.length - 1] == 'Z')
+								line = line.substring(0, line.indexOf("T"));
+						}
         					str = str.substring(pos2 + 1, str.length);
         					if (pos2 == -1)
         						str = str.substring(pos1 + 1, str.length);	
