@@ -23,6 +23,28 @@ var server = http.createServer( function(request, response){
 			}
 		}
 	
+		const { Client } = require('pg');
+
+		const client = new Client({
+ 			connectionString: process.env.DATABASE_URL,
+  			ssl: true,
+		});
+
+		from = "Moscow";
+		where = "Paris";
+		when = "2018-01-04";
+		client.connect();
+		var query = "SELECT Flights.id, Flights.date_flight, Flights.time_flight, C1.Country, Cit1.City, C2.Country, Cit2.City, Flights.cost FROM Flight, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
+		+ "AND Cit1.City='" + from + "' AND Cit2.City='" + where + "' AND Flight.date_flight ='" + when + "'";
+
+		client.query(query, (err, res) => {
+  			if (err) throw err;
+  			for (let row of res.rows) {
+    				console.log(JSON.stringifyrow);
+  			}
+ 		 	client.end();
+		});
+
 		response.writeHead(200, {'Content-Type': 'text/html'});
 		var message = from +"&" + where + "&" + when + "&" + "a&b&c|";
 		var result = "HTTP/1.1 200 OK\r\n" +
