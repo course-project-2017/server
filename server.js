@@ -10,7 +10,7 @@ var server = http.createServer( function(request, response){
  	});
 
 	request.on('end', () => {
-		var substr = input.split("\n"), pos = 0, from = null, where = null, when = null;
+		var substr = input.split("\n"), pos = 0, from = '', where = '', when = '';
         	for (var i = 0; i < substr.length; i++){
         		if (substr[i].indexOf("&") == 0) {
                 		pos = substr[i].indexOf("&", 1); 
@@ -30,7 +30,7 @@ var server = http.createServer( function(request, response){
   			ssl: true,
 		});
 		
-        	var line = null;
+        	var line = '';
         	client.connect();
         	var message = '', country = '';
         	client.query(("SELECT Countries.Country FROM Countries, Cities WHERE Countries.id = Cities.country AND Cities.city = '" + where + "'"), (err, res) => {
