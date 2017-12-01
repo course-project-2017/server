@@ -39,7 +39,7 @@ var server = http.createServer( function(request, response){
         			country = JSON.stringify(row);
         			country = country.substring( country.indexOf(":") + 2, country.length - 2);
         		}
-        		var query = "SELECT Flights.id, Flights.date_flight, Flights.cost, Flights.time_flight,C1.Country, Cit1.City, C2.Country, Cit2.City FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
+        		var query = "SELECT Flights.id, Flights.date_flight, Flights.time_flight, Flights.cost, C1.Country, Cit1.City, C2.Country, Cit2.City FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
         				+ "AND Cit1.City='" + where + "' AND Cit2.City='" + from + "' AND Flights.date_flight ='" + when + "'";
         		client.query(query, (err, res) => {
         			if (err) throw err;
