@@ -50,7 +50,7 @@ var server = http.createServer( function(request, response){
 		"Server: YarServer/2009-09-09\r\n" +
 		"Content-Type: text/html\r\n" +
 		"Content-Length: " + message.length +  "\r\n" +
-		"Connection: close\r\n\r\n" + str;
+		"Connection: close\r\n\r\n" + message;
 
        		response.end(result);	
 	});
