@@ -23,6 +23,8 @@ var server = http.createServer(
  	});
 	request.on('end', () => {
 		var from = '', where = '', when = '0001-01-01';
+		if (!input)
+			response.end(JSON.stringify("No request"));
 		JSON.parse(input, function(key, value) {
  			if (key == 'from') 
 				from = value;
