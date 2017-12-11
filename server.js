@@ -56,7 +56,13 @@ var server = http.createServer(
 			if (!message)
 				message = JSON.stringify("No tickets!");
 			else
-				message = '{"Flights": [' + message.substring(0, message.length - 2) + ']}';
+				message = '[' + message.substring(0, message.length - 2) + ']';
+			var shapka = JSON.stringify("HTTP/1.1 200 OK\r\n" +
+                    "Server: YarServer/2009-09-09\r\n" +
+                    "Content-Type: text/html\r\n" +
+                    "Content-Length: " + message.length() + "\r\n" +
+                    "Connection: close\r\n\r\n");
+			message = shapka + message;
 			client.end();
        			response.end(message);	
        		 });
