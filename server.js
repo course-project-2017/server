@@ -34,13 +34,14 @@ var server = http.createServer(
 					where = value;
 				if (key == 'when') 
 					when = value;
+			})
+
+			const { Client } = require('pg');
+			const client = new Client({
+ 				connectionString: process.env.DATABASE_URL,
+  				ssl: true,
 			});
-			input = '{"from":"Moscow", "where":"Paris", "when":"2018-01-01"}';
-			var pg = require('pg');
-        		var conString = "postgres://postgres:postgres@localhost:5432/Test";
-	
-	     	  	 var client = new pg.Client(conString);
-        		client.connect();
+			client.connect();
 		
         		var query = "SELECT Flights.id, Flights.date_flight, Flights.cost, Flights.time_flight, C1.Country AS country_from, Cit1.City AS city_from, C2.Country AS country_to, Cit2.City AS city_to " + 
 				"FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
