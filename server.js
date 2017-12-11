@@ -27,7 +27,6 @@ var server = http.createServer(
 			response.end(JSON.stringify("No request"));
 		else 
 		{
-			console.log('input: ', input);
 			JSON.parse(input, function(key, value) {
  				if (key == 'from') 
 					from = value;
@@ -36,9 +35,6 @@ var server = http.createServer(
 				if (key == 'when') 
 					when = value;
 			})
-				console.log('from: ', from);
-			console.log('where: ', where);
-			console.log('when: ', when);
 
 			const { Client } = require('pg');
 			const client = new Client({
@@ -63,12 +59,6 @@ var server = http.createServer(
 					message = JSON.stringify("No tickets!");
 				else
 					message = '[' + message.substring(0, message.length - 2) + ']';
-				/*var shapka = JSON.stringify("HTTP/1.1 200 OK\r\n" +
-                    			"Server: YarServer/2009-09-09\r\n" +
-                    			"Content-Type: text/html\r\n" +
-                     			"Content-Length: " + message.length + "\r\n" +
-                     			"Connection: close\r\n\r\n");
- 				message = shapka + message;*/
 				client.end();
        				response.end(message);
        			});
