@@ -27,6 +27,7 @@ var server = http.createServer(
 			response.end(JSON.stringify("No request"));
 		else 
 		{
+			console.log('input: ', input);
 			JSON.parse(input, function(key, value) {
  				if (key == 'from') 
 					from = value;
@@ -35,6 +36,9 @@ var server = http.createServer(
 				if (key == 'when') 
 					when = value;
 			})
+				console.log('from: ', from);
+			console.log('where: ', where);
+			console.log('when: ', when);
 
 			const { Client } = require('pg');
 			const client = new Client({
