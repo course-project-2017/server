@@ -39,20 +39,24 @@ var server = http.createServer( function(request, response){
 			"FROM Flights, Countries AS C1, Cities AS Cit1, Countries AS C2, Cities AS Cit2 WHERE (Cit1.Country=C1.ID and Flights.city_to=Cit1.ID) AND (Cit2.Country=C2.ID and Flights.city_from=Cit2.ID)"
         		+ "AND Cit1.City='" + from + "' AND Cit2.City='" + where + "' AND Flights.date_flight ='" + when + "'";
         	client.query(query, (err, res) => {
-        		if (err)
-				throw err;
-			var message = '', str = '';
-        		for (let row of res.rows)
-			{
-        			str = JSON.stringify(row);
-				message += str + ", ";
+			try{
+        			if (err)
+					throw err;
+				var message = '', str = '';
+        			for (let row of res.rows)
+				{
+        				str = JSON.stringify(row);
+					message += str + ", ";
+				}
+				if (!message)
+					message = JSON.stringify("No tickets!");
+				else
+					message = '[' + message.substring(0, message.length - 2) + ']';
+       				response.end(message);
+			}catch (err) {
+   				response.end(JSON.stringify("Wrong request"));
 			}
-			if (!message)
-				message = JSON.stringify("No tickets!");
-			else
-				message = '[' + message.substring(0, message.length - 2) + ']';
 			client.end();
-       			response.end(message);
        		});
 	}	
 })
