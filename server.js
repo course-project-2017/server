@@ -19,14 +19,14 @@ var server = http.createServer( function(request, response){
 
   	response.setHeader('Content-Type', 'application/json');
 	var input = url.parse(request.url, true);
-	var from = '', where = '', when = '0001-01-01';
-	if (!input)
-		response.end(JSON.stringify("No request"));
+
+	if (!input.query.from || !input.query.where || !input.query.when)
+		response.end(JSON.stringify("Wrong request"));
 	else 
 	{
-		from = input.query.from;
-		where = input.query.where;
-		when = input.query.when;
+		var from = input.query.from;
+		var where = input.query.where;
+		var when = input.query.when;
 
 		const { Client } = require('pg');
 		const client = new Client({
