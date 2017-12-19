@@ -27,7 +27,11 @@ var server = http.createServer( function(request, response){
 		var from = input.query.from;
 		var where = input.query.where;
 		var when = input.query.when;
-
+		
+		from = from.replace(/\'/g, " ").replace(/\\/g, " ");
+		where = where.replace(/\'/g, " ").replace(/\\/g, " ");
+		when = when.replace(/\'/g, " ").replace(/\\/g, " ");
+		
 		const { Client } = require('pg');
 		const client = new Client({
  			connectionString: process.env.DATABASE_URL,
